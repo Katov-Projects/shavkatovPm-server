@@ -40,9 +40,10 @@ async function bootstrap() {
     .build();
 
   // Swagger faqat developmentda ochiladi
+  console.log(process.env.NODE_ENV, 'kelsi');
   if (process.env.NODE_ENV?.trim() === 'development') {
     const documentFactory = () => SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('api', app, documentFactory);
+    SwaggerModule.setup('docs', app, documentFactory);
   }
 
   const HOST = process.env.HOST ?? 'http://localhost:';
