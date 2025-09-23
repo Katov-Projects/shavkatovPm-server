@@ -3,7 +3,9 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TelegrafModule } from 'nestjs-telegraf';
-import { BotModule } from './modules';
+import { AuthModule, BotModule } from './modules';
+import { APP_GUARD } from '@nestjs/core';
+import { CheckAuthGuard } from './guardes';
 
 @Module({
   imports: [
@@ -14,13 +16,22 @@ import { BotModule } from './modules';
       }),
     }),
 
-    TelegrafModule.forRoot({
-      token: process.env.BOT_SECRET_TOKEN as string,
-    }),
+    // TelegrafModule.forRoot({
+    //   token: process.env.BOT_SECRET_TOKEN as string,
+    // }),
 
     MongooseModule.forRoot(process.env.DB_URL as string),
 
-    BotModule,
+    // BotModule,
+
+    AuthModule,
+  ],
+
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: CheckAuthGuard,
+    },
   ],
 })
 export class AppModule {}

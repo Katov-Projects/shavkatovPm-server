@@ -1,8 +1,6 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { BotUpdate } from "./bot.update";
 import { SendMessageDto } from "./dtos";
-import { Ctx } from "nestjs-telegraf";
-import { Context } from "telegraf";
 
 
 
