@@ -3,9 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TelegrafModule } from 'nestjs-telegraf';
-import { AuthModule, BotModule } from './modules';
+import { AuthModule, BlogModule, BotModule, ProjectModule } from './modules';
 import { APP_GUARD } from '@nestjs/core';
 import { CheckAuthGuard } from './guardes';
+import { CategoryModule } from './modules/category/category.module';
 
 @Module({
   imports: [
@@ -25,6 +26,13 @@ import { CheckAuthGuard } from './guardes';
     // BotModule,
 
     AuthModule,
+
+    BlogModule,
+
+    ProjectModule,
+
+    CategoryModule,
+
   ],
 
   providers: [
