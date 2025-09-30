@@ -11,3 +11,12 @@ export class Category {
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);
+
+CategorySchema.virtual('blog', {
+  ref: 'Blog',
+  localField: '_id',
+  foreignField: 'categoryId',
+});
+
+CategorySchema.set('toObject', { virtuals: true });
+CategorySchema.set('toJSON', { virtuals: true });

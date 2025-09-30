@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req } from "@nestjs/common";
 import { BlogService } from "./blog.service";
 import { CreateBlogDto, UpdateBlogDto } from "./dtos";
 import { Protected } from "src/decoratores";
+import { Request } from "express";
 
 
 @Controller('blog')
@@ -10,14 +11,26 @@ export class BlogController {
 
   @Get('all')
   @Protected(false)
-  async getAll() {
-    return await this.service.getAll();
+  async getAll(@Query('search') search?: string) {
+    return await this.service.getAll(search);
   }
 
   @Get('all-archive')
   @Protected(true)
   async getAllArchive() {
     return await this.service.getArchive();
+  }
+
+  @Get("sam-tags/:id")
+  @Protected(false)
+  async getSameTag(@Param("id") id: string){
+    return await this.service.getSameTag(id);
+  }
+
+  @Patch("set-view/:id")
+  @Protected(false)
+  async viewBlog(@Param("id") id: string, @Req() req: Request) {
+    return await this.service.viewBlog(id, req);
   }
 
   @Get('getById/:id')
@@ -50,9 +63,9 @@ export class BlogController {
     return await this.service.exitArchive(id);
   }
 
-  @Delete("delete/:id")
+  @Delete('delete/:id')
   @Protected(true)
-  async delete (@Param("id") id:string) {
+  async delete(@Param('id') id: string) {
     return await this.service.detete(id);
   }
 }

@@ -28,13 +28,13 @@ export class Blog {
   subtitle: string;
 
   @Prop({ type: [Section], default: [] })
-  sections: Section[]; // [{title, subtitle}, ...]
+  sections: Section[];
 
   @Prop({ type: [ValueObject], default: [] })
-  seo: ValueObject[]; // [{value}, {value}, ...]
+  seo: ValueObject[];
 
   @Prop({ type: [ValueObject], default: [] })
-  tags: ValueObject[]; // [{value}, {value}, ...]
+  tags: ValueObject[];
 
   @Prop({ type: SchemaTypes.Number, default: 0 })
   multiViews: number;

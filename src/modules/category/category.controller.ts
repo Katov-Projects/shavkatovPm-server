@@ -22,6 +22,18 @@ export class CategoryController {
     return this.categoryService.findAll();
   }
 
+  @Get('with-count')
+  @Protected(false)
+  async getAllCategoryByCount() {
+    return await this.categoryService.getAllCategoryByCount();
+  }
+
+  @Get("get-blogs/:id")
+  @Protected(false)
+  async getByBlogs(@Param("id") id: string) {
+    return await this.categoryService.getByBlogs(id);
+  }
+
   @Get(':id')
   @Protected(false)
   findOne(@Param('id') id: string) {

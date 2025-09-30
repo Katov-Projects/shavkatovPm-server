@@ -1,11 +1,11 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Auth, AuthDocument } from './model';
 import { Model } from 'mongoose';
-import { AuthLoginDto } from './dtos';
+import { AuthUpdateDto, AuthLoginDto } from './dtos';
 import { BadRequestException, Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { JwtHelper } from 'src/helpers';
 import * as bcrypt from 'bcryptjs';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class AuthService implements OnModuleInit {
@@ -18,25 +18,55 @@ export class AuthService implements OnModuleInit {
     private readonly jwt: JwtHelper,
   ) {}
 
-  async login(payload: AuthLoginDto, res: Response) {
+  async update(payload: AuthUpdateDto, req: Request & { adminId: string }, res: Response) {
+    const adminId = req.adminId;
 
-    const foundUser = await this.authModel.findOne({login: payload.login});
+    const hashPassword = await bcrypt.hash(payload.password, 10);
 
-    if(!foundUser){
+    const data = await this.authModel.findByIdAndUpdate(adminId, {
+      login: payload.login,
+      password: hashPassword,
+    })
+
+    if(!data){
       throw new NotFoundException("Admin Not Found");
     }
 
-    const checkPass = await bcrypt.compare(payload.password, foundUser.password);
+    res.clearCookie('accessToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+    });
 
-    if(!checkPass){
-      throw new BadRequestException("Error Password");
+
+    return res.json({ message: 'success' });
+  }
+
+  async login(payload: AuthLoginDto, res: Response) {
+    const foundUser = await this.authModel.findOne({ login: payload.login });
+
+    if (!foundUser) {
+      throw new NotFoundException('Admin Not Found');
+    }
+
+    const checkPass = await bcrypt.compare(
+      payload.password,
+      foundUser.password,
+    );
+
+    if (!checkPass) {
+      throw new BadRequestException('Error Password');
     }
 
     const tokenSecretKey = process.env.ACCESSTOKEN_SECRET_KEY as string;
     const tokenSecretTime = process.env.ACCESSTOKEN_SECRET_TIME as string;
 
-    const token = await this.jwt.generateToken({id: foundUser.id}, tokenSecretKey, tokenSecretTime);
-
+    const token = await this.jwt.generateToken(
+      { id: foundUser.id },
+      tokenSecretKey,
+      tokenSecretTime,
+    );
 
     res.cookie('accessToken', token, {
       httpOnly: true,
@@ -63,9 +93,9 @@ export class AuthService implements OnModuleInit {
           password: hashPassword,
         });
       }
-      console.log("default admin created ☑️")
+      console.log('default admin created ☑️');
     } catch (error) {
-      console.error( error,"default user error ❌");
+      console.error(error, 'default user error ❌');
     }
   }
 }

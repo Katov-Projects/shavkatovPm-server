@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { CreateBlogDto, UpdateBlogDto } from './dtos';
 import { Category, CategoryDocument } from '../category/model';
+import { Request } from 'express';
 
 @Injectable()
 export class BlogService {
@@ -18,8 +19,17 @@ export class BlogService {
     private readonly categoryModel: Model<CategoryDocument>,
   ) {}
 
-  async getAll() {
-    const data = await this.blogModel.find({ isArchive: false });
+  async getAll(search?: string) {
+    const filter: any = { isArchive: false };
+
+    if (search) {
+      filter.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { subtitle: { $regex: search, $options: 'i' } },
+      ];
+    }
+
+    const data = await this.blogModel.find(filter);
 
     return {
       message: 'success',
@@ -93,7 +103,6 @@ export class BlogService {
       throw new BadRequestException('Bunday kategory topilmadi');
     }
 
-
     const update = await this.blogModel.findByIdAndUpdate(
       id,
       {
@@ -102,7 +111,7 @@ export class BlogService {
         sections: payload.sections,
         tags: payload.tags,
         seo: payload.seo,
-        categoryId: foundCategory._id
+        categoryId: foundCategory._id,
       },
       { new: true, runValidators: true },
     );
@@ -164,6 +173,70 @@ export class BlogService {
 
     return {
       message: 'success',
+    };
+  }
+
+  async viewBlog(id: string, req: Request) {
+    if (!isValidObjectId(id)) {
+      throw new BadRequestException('Error ID Format');
+    }
+
+    const reqIp: string =
+      (Array.isArray(req.headers['x-forwarded-for'])
+        ? req.headers['x-forwarded-for'][0]
+        : req.headers['x-forwarded-for']) ||
+      req.ip ||
+      req.socket?.remoteAddress ||
+      'unknown';
+
+    const blog = await this.blogModel.findById(id);
+
+    if (!blog) {
+      throw new NotFoundException('Blog Not Found');
+    }
+
+    blog.multiViews += 1;
+
+    if (!blog.uniqueViews.includes(reqIp)) {
+      blog.uniqueViews.push(reqIp);
+    }
+
+    await blog.save();
+
+    return {
+      message: 'success',
+    };
+  }
+
+  async getSameTag(id: string) {
+    if (!isValidObjectId(id)) {
+      throw new BadRequestException('Error Format ID');
+    }
+
+    const foundBlog = await this.blogModel.findById(id);
+
+    if (!foundBlog) {
+      throw new NotFoundException('Blog Not Found');
+    }
+
+    const tagValues = foundBlog.tags.map((t) => t.value);
+
+    if (!tagValues.length) {
+      return {
+        message: 'success',
+        data: [],
+      };
+    }
+
+    const sameTagBlogs = await this.blogModel.find({
+      _id: { $ne: foundBlog._id },
+      'tags.value': { $in: tagValues },
+    });
+
+    return {
+      message: 'success',
+      count: sameTagBlogs.length,
+      data: sameTagBlogs,
     };
   }
 

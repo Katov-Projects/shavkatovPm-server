@@ -11,6 +11,8 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.setGlobalPrefix('api');
+  const expressApp = app.getHttpAdapter().getInstance();
+  expressApp.set('trust proxy', 1);
 
   app.enableCors({
     origin: process.env.CORS_ORIGINS
