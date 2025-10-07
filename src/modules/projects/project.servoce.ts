@@ -52,6 +52,7 @@ export class ProjectServiec {
   }
 
   async create(payload: CreateProjectDto) {
+
     const foundProject = await this.projectModel.findOne({
       title: payload.title.trim(),
     });
@@ -63,7 +64,9 @@ export class ProjectServiec {
     const data = await this.projectModel.create({
       title: payload.title,
       subtitle: payload.subtitle,
-      description: payload.description,
+      maqsad: payload.maqsad,
+      yondashuv: payload.yondashuv,
+      vositalar: payload.vositalar,
       url: payload.url,
     });
 
@@ -78,20 +81,14 @@ export class ProjectServiec {
       throw new BadRequestException("Noto'g'ri ID format");
     }
 
-    const foundProject = await this.projectModel.findOne({
-      title: payload.title,
-    });
-
-    if (foundProject) {
-      throw new ConflictException('Bunday project allaqachon mavjud');
-    }
-
-    const update = await this.projectModel.findByIdAndUpdate(
-      id,
+    const update = await this.projectModel.findOneAndUpdate(
+      {title: payload.title},
       {
         title: payload.title,
         subtitle: payload.subtitle,
-        description: payload.description,
+        maqsad: payload.maqsad,
+        yondashuv: payload.yondashuv,
+        vositalar: payload.vositalar,
         url: payload.url,
       },
       { new: true, runValidators: true },

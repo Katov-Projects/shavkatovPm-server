@@ -8,6 +8,9 @@ class TrafficSourceStats {
   @Prop({ type: [SchemaTypes.String], default: [] })
   uniqueViews: string[];
 
+  @Prop({type: SchemaTypes.Number, default: 0})
+  uniqueCount: number;
+
   @Prop({ type: SchemaTypes.Number, default: 0 })
   multiViews: number;
 
@@ -29,17 +32,16 @@ export class Statistics {
   @Prop({
     type: Map,
     of: TrafficSourceStatsSchema,
-    default: {
-      google: {},
-      yandex: {},
-      direct: {},
-      telegram: {},
-      instagram: {},
-      other: {},
-    },
+    default: () => ({
+      google: { uniqueViews: [], multiViews: 0, avgTime: 0, bounceRate: 0 },
+      yandex: { uniqueViews: [], multiViews: 0, avgTime: 0, bounceRate: 0 },
+      direct: { uniqueViews: [], multiViews: 0, avgTime: 0, bounceRate: 0 },
+      telegram: { uniqueViews: [], multiViews: 0, avgTime: 0, bounceRate: 0 },
+      instagram: { uniqueViews: [], multiViews: 0, avgTime: 0, bounceRate: 0 },
+      other: { uniqueViews: [], multiViews: 0, avgTime: 0, bounceRate: 0 },
+    }),
   })
-  trafficSources: Record<string, TrafficSourceStats>;
-
+  trafficSources: Map<string, TrafficSourceStats>;
   @Prop({
     type: SchemaTypes.String,
     enum: ['daily', 'weekly', 'monthly'],
@@ -47,7 +49,7 @@ export class Statistics {
   })
   periodType: 'daily' | 'weekly' | 'monthly';
 
-  @Prop({ type: SchemaTypes.Date, required: true, unique: true })
+  @Prop({ type: SchemaTypes.Date, required: true })
   date: Date;
 }
 

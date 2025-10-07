@@ -25,23 +25,32 @@ export class CategoryService {
       data: data,
     };
   }
+  async getAllCategoryNames() {
+    const data = await this.categoryModel.find({}, { name: 1, _id: 0 });
+    console.log(data)
+    return {
+      message: 'success',
+      data: data.map((item) => item.name),
+    };
+  }
 
   async getByBlogs(id: string) {
-    
-    if(!isValidObjectId(id)){
-      throw new BadRequestException("Error Format ID");
+    if (!isValidObjectId(id)) {
+      throw new BadRequestException('Error Format ID');
     }
 
-    const foundCategory = await this.categoryModel.findById(id).populate("blog");
+    const foundCategory = await this.categoryModel
+      .findById(id)
+      .populate('blog');
 
-    if(!foundCategory){
-      throw new NotFoundException("Category Not Found");
+    if (!foundCategory) {
+      throw new NotFoundException('Category Not Found');
     }
 
     return {
-      message: "success",
+      message: 'success',
       data: foundCategory,
-    }
+    };
   }
 
   async findOne(id: string) {
@@ -84,9 +93,9 @@ export class CategoryService {
     ]);
 
     return {
-      message: "success",
-      data
-    }
+      message: 'success',
+      data,
+    };
   }
 
   async create(payload: CreateCategoryDto) {
@@ -133,7 +142,6 @@ export class CategoryService {
       data,
     };
   }
-
 
   async remove(id: string) {
     if (!isValidObjectId(id)) {

@@ -12,7 +12,13 @@ export class Project {
   subtitle: string;
 
   @Prop({ type: SchemaTypes.String, required: true })
-  description: string;
+  maqsad: string;
+
+  @Prop({ type: SchemaTypes.String, required: true })
+  yondashuv: string;
+
+  @Prop({ type: [SchemaTypes.String], required: true })
+  vositalar: string[];
 
   @Prop({ type: SchemaTypes.String, required: true })
   url: string;

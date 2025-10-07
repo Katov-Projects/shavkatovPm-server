@@ -28,6 +28,12 @@ export class CategoryController {
     return await this.categoryService.getAllCategoryByCount();
   }
 
+  @Get('all-cateorynames')
+  @Protected(true)
+  async getAllCategoryNames () {
+    return await this.categoryService.getAllCategoryNames();
+  }
+
   @Get("get-blogs/:id")
   @Protected(false)
   async getByBlogs(@Param("id") id: string) {

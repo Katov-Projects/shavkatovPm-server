@@ -45,6 +45,12 @@ export class Blog {
   @Prop({ type: SchemaTypes.Boolean, default: false })
   isArchive: boolean;
 
+  @Prop({ type: SchemaTypes.Number, default: 0 })
+  avgTime: number;
+
+  @Prop({ type: SchemaTypes.Number, default: 0 })
+  bounceRate: number;
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
   categoryId: string;
 }
