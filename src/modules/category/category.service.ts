@@ -9,7 +9,6 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Category, CategoryDocument } from './model';
 import { isValidObjectId, Model, Types } from 'mongoose';
-import { Request } from 'express';
 
 @Injectable()
 export class CategoryService {
@@ -27,7 +26,6 @@ export class CategoryService {
   }
   async getAllCategoryNames() {
     const data = await this.categoryModel.find({}, { name: 1, _id: 0 });
-    console.log(data)
     return {
       message: 'success',
       data: data.map((item) => item.name),

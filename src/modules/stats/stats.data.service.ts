@@ -75,14 +75,14 @@ export class StatsDataService {
           periodStats.map((p) => p.date.toISOString().split('T')[0]),
         );
 
-        // if (timeQuery === 'week' && uniqueDates.size < 7) {
-        //   continue;
-        // }
+        if (timeQuery === 'week' && uniqueDates.size < 7) {
+          continue;
+        }
 
-        // if (timeQuery === 'month' && uniqueDates.size < 28) {
-        //   console.log(`❌ ${page} uchun to‘liq oylik data yo‘q`);
-        //   continue;
-        // }
+        if (timeQuery === 'month' && uniqueDates.size < 28) {
+          console.log(`❌ ${page} uchun to‘liq oylik data yo‘q`);
+          continue;
+        }
 
         if (!periodStats.length) continue;
 
@@ -103,7 +103,7 @@ export class StatsDataService {
         const totalDocs = periodStats.length;
         const avgTime = totalDocs ? Math.round(totalAvgTime / totalDocs) : 0;
         const avgBounceRate = totalDocs
-          ? Math.round(totalBounceRate / totalDocs)
+          ? totalBounceRate
           : 0;
 
         results.push({
@@ -119,7 +119,7 @@ export class StatsDataService {
           uniqueVisitors: totalUniqueSet.size,
           pageViews: totalPageViews,
           avgTime,
-          bounceRate: `${avgBounceRate}%`,
+          bounceRate: avgBounceRate,
         });
       }
 
@@ -177,9 +177,7 @@ export class StatsDataService {
       uniqueVisitors: val.uniqueSet.size,
       pageViews: val.totalViews,
       avgTime: val.docs ? Math.round(val.totalAvgTime / val.docs) : 0,
-      bounceRate: val.docs
-        ? `${Math.round(val.totalBounce / val.docs)}%`
-        : '0%',
+      bounceRate: val.docs ? val.totalBounce : 0,
     }));
 
     return { name: 'traffic Source', data: result };

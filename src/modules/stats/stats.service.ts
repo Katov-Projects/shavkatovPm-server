@@ -51,7 +51,6 @@ export class StatsService {
 
   async homeSection(payload: HomeSection, soket: Server, client: Socket) {
     const socketId = client.id;
-    console.log(socketId, payload);
 
     const handshake: any = client.handshake;
     const reqIp: string =
@@ -223,7 +222,6 @@ export class StatsService {
 
           let allWiewCount: number = 0;
           let avgTime: number = 0;
-          let allBounceRate: number = 0;
 
           for (let i = 0; i < allStats.length; i++) {
             const trafficMap = allStats[i].trafficSources;
@@ -231,7 +229,6 @@ export class StatsService {
               const views = trafficMap.get(page)?.multiViews || 0;
               allWiewCount += views;
               avgTime += trafficMap.get(page)?.avgTime || 0;
-              allBounceRate += trafficMap.get(page)?.bounceRate || 0;
             }
           }
 
@@ -289,6 +286,7 @@ export class StatsService {
           socketId: socketId,
         });
 
+
         if (foundBlogStats) {
           const foundBlog = await this.blogModel.findById(payload.blogId);
 
@@ -304,7 +302,7 @@ export class StatsService {
 
             const newAvg = (currentAvg * count + diffSeconds) / (count + 1);
 
-            foundBlog.avgTime = newAvg;
+            foundBlog.avgTime = parseFloat(newAvg.toFixed(1));
 
             if (diffSeconds <= 10) {
               foundBlog.bounceRate = (foundBlog.bounceRate || 0) + 1;

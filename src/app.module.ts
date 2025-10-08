@@ -17,13 +17,13 @@ import { CategoryModule } from './modules/category/category.module';
       }),
     }),
 
-    // TelegrafModule.forRoot({
-    //   token: process.env.BOT_SECRET_TOKEN as string,
-    // }),
+    TelegrafModule.forRoot({
+      token: process.env.BOT_SECRET_TOKEN as string,
+    }),
 
     MongooseModule.forRoot(process.env.DB_URL as string),
 
-    // BotModule,
+    BotModule,
 
     AuthModule,
 
