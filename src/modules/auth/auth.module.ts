@@ -13,7 +13,7 @@ import { JwtModule } from "@nestjs/jwt";
     MongooseModule.forFeature([{ name: Auth.name, schema: AuthSchema }]),
     JwtModule.register({
       secret: process.env.ACCESSTOKEN_SECRET_KEY,
-      signOptions: { expiresIn: process.env.ACCESSTOKEN_SECRET_TIME },
+      signOptions: { expiresIn: process.env.ACCESSTOKEN_SECRET_TIME as any },
     }),
   ],
   controllers: [AuthController],

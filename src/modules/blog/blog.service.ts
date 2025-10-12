@@ -176,18 +176,12 @@ export class BlogService {
     };
   }
 
-  async viewBlog(id: string, req: Request) {
+  async viewBlog(id: string, payload: { userId: string }) {
     if (!isValidObjectId(id)) {
       throw new BadRequestException('Error ID Format');
     }
 
-    const reqIp: string =
-      (Array.isArray(req.headers['x-forwarded-for'])
-        ? req.headers['x-forwarded-for'][0]
-        : req.headers['x-forwarded-for']) ||
-      req.ip ||
-      req.socket?.remoteAddress ||
-      'unknown';
+    const reqIp = payload.userId ?? "";
 
     const blog = await this.blogModel.findById(id);
 

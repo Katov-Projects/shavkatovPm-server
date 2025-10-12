@@ -52,14 +52,7 @@ export class StatsService {
   async homeSection(payload: HomeSection, soket: Server, client: Socket) {
     const socketId = client.id;
 
-    const handshake: any = client.handshake;
-    const reqIp: string =
-      (Array.isArray(handshake.headers['x-forwarded-for'])
-        ? handshake.headers['x-forwarded-for'][0]
-        : handshake.headers['x-forwarded-for']) ||
-      handshake.address ||
-      client.conn.remoteAddress ||
-      'unknown';
+    const reqIp: string = payload.userId
 
     try {
       if (payload.event === 'enter') {
@@ -264,7 +257,6 @@ export class StatsService {
   }
 
   async blogStats(payload: IBlogStats, client: Socket) {
-    console.log(payload, client.id, 'kirdi');
     if (!isValidObjectId(payload.blogId)) {
       return {
         message: 'error format ID',

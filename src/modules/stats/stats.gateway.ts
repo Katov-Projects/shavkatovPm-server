@@ -16,7 +16,6 @@ export class StatsGataway {
   constructor(private readonly service: StatsService) {}
 
   async handleDisconnect(client: Socket) {
-    console.log(`❌ Client disconnected: ${client.id}`);
     await this.service.handleDisconnect(client);
   }
 

@@ -21,16 +21,19 @@ export class BlogController {
     return await this.service.getArchive();
   }
 
-  @Get("sam-tags/:id")
+  @Get('sam-tags/:id')
   @Protected(false)
-  async getSameTag(@Param("id") id: string){
+  async getSameTag(@Param('id') id: string) {
     return await this.service.getSameTag(id);
   }
 
-  @Patch("set-view/:id")
+  @Patch('set-view/:id')
   @Protected(false)
-  async viewBlog(@Param("id") id: string, @Req() req: Request) {
-    return await this.service.viewBlog(id, req);
+  async viewBlog(
+    @Param('id') id: string,
+    @Body() body: {userId: string},
+  ) {
+    return await this.service.viewBlog(id, body);
   }
 
   @Get('getById/:id')

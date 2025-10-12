@@ -4,6 +4,7 @@ export interface HomeSection {
   traffic: string;
   event: string;
   time: Date;
+  userId: string;
 }
 export interface UpdateTrafficStats {
   model: any;

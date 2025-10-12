@@ -13,7 +13,7 @@ export class JwtHelper {
   async generateToken(
     payload: { id: string },
     secretKey: string,
-    secretTime: string,
+    secretTime: any,
   ) {
     const token = await this.jwt.signAsync(payload, {
       secret: secretKey,
