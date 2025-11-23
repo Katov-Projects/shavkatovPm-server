@@ -3,10 +3,17 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TelegrafModule } from 'nestjs-telegraf';
-import { AuthModule, BlogModule, BotModule, ProjectModule, StatsModule } from './modules';
+import {
+  AuthModule,
+  BlogModule,
+  BotModule,
+  ProjectModule,
+  StatsModule,
+} from './modules';
 import { APP_GUARD } from '@nestjs/core';
 import { CheckAuthGuard } from './guardes';
 import { CategoryModule } from './modules/category/category.module';
+import { SettingsModule } from './modules/settings/settings.module';
 
 @Module({
   imports: [
@@ -35,6 +42,7 @@ import { CategoryModule } from './modules/category/category.module';
 
     StatsModule,
 
+    SettingsModule,
   ],
 
   providers: [
