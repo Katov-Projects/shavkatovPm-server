@@ -3,7 +3,6 @@ import { Blog, BlogDocument } from './model';
 import { isValidObjectId, Model } from 'mongoose';
 import {
   BadRequestException,
-  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -19,7 +18,7 @@ export class BlogService {
     private readonly categoryModel: Model<CategoryDocument>,
   ) {}
 
-  async getAll(search?: string) {
+  async getAll(search?: string, sortBy?: string) {
     const filter: any = { isArchive: false };
 
     if (search) {
@@ -29,7 +28,21 @@ export class BlogService {
       ];
     }
 
-    const data = await this.blogModel.find(filter);
+    let sortOptions = {};
+    switch (sortBy) {
+      case 'newest':
+        sortOptions = { createdAt: -1 };
+        break;
+      case 'oldest':
+        sortOptions = { createdAt: 1 };
+        break;
+      case 'mostViewed':
+        sortOptions = { multiViews: -1 };
+        break;
+      default:
+        sortOptions = { createdAt: -1 };
+    }
+    const data = await this.blogModel.find(filter).sort(sortOptions);
 
     return {
       message: 'success',
@@ -181,7 +194,7 @@ export class BlogService {
       throw new BadRequestException('Error ID Format');
     }
 
-    const reqIp = payload.userId ?? "";
+    const reqIp = payload.userId ?? '';
 
     const blog = await this.blogModel.findById(id);
 

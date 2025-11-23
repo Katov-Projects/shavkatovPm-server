@@ -1,9 +1,19 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req } from "@nestjs/common";
-import { BlogService } from "./blog.service";
-import { CreateBlogDto, UpdateBlogDto } from "./dtos";
-import { Protected } from "src/decoratores";
-import { Request } from "express";
-
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+  Query,
+  Req,
+} from '@nestjs/common';
+import { BlogService } from './blog.service';
+import { CreateBlogDto, UpdateBlogDto } from './dtos';
+import { Protected } from 'src/decoratores';
+import { Request } from 'express';
 
 @Controller('blog')
 export class BlogController {
@@ -11,8 +21,11 @@ export class BlogController {
 
   @Get('all')
   @Protected(false)
-  async getAll(@Query('search') search?: string) {
-    return await this.service.getAll(search);
+  async getAll(
+    @Query('search') search?: string,
+    @Query('sortBy') sortBy?: string,
+  ) {
+    return await this.service.getAll(search, sortBy);
   }
 
   @Get('all-archive')
@@ -29,10 +42,7 @@ export class BlogController {
 
   @Patch('set-view/:id')
   @Protected(false)
-  async viewBlog(
-    @Param('id') id: string,
-    @Body() body: {userId: string},
-  ) {
+  async viewBlog(@Param('id') id: string, @Body() body: { userId: string }) {
     return await this.service.viewBlog(id, body);
   }
 
