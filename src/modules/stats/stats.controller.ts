@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
 import { StatsDataService } from './stats.data.service';
 import { Response } from 'express';
-import { Protected } from 'src/decoratores';
+import { Protected } from '../../decoratores';
 
 type PeriodQuery = 'day' | 'week' | 'month';
 type SectionQuery =

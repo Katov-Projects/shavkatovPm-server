@@ -52,7 +52,6 @@ export class ProjectServiec {
   }
 
   async create(payload: CreateProjectDto) {
-
     const foundProject = await this.projectModel.findOne({
       title: payload.title.trim(),
     });
@@ -82,7 +81,7 @@ export class ProjectServiec {
     }
 
     const update = await this.projectModel.findOneAndUpdate(
-      {title: payload.title},
+      { title: payload.title },
       {
         title: payload.title,
         subtitle: payload.subtitle,

@@ -1,4 +1,3 @@
-
 export interface HomeSection {
   name: string;
   traffic: string;

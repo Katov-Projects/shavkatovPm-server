@@ -1,5 +1,4 @@
-import { SetMetadata } from "@nestjs/common";
-
+import { SetMetadata } from '@nestjs/common';
 
 export const PROTECTED_KEY = 'ROTECTED_KEY';
 

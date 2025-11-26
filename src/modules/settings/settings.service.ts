@@ -18,18 +18,24 @@ export class SettingsService {
   }
 
   async updateSettings(payload: UpdateSettingsDto) {
-    let settings = await this.settingsModel.findOne();
+    const updateData: Record<string, unknown> = {};
 
-    if (!settings) {
-      settings = await this.settingsModel.create({
-        blogSortBy: payload.blogSortBy || 'newest',
-      });
-    } else {
-      if (payload.blogSortBy) {
-        settings.blogSortBy = payload.blogSortBy;
+    Object.keys(payload).forEach((key) => {
+      const value = payload[key as keyof UpdateSettingsDto];
+      if (value !== undefined && value !== null) {
+        updateData[key] = value;
       }
-      await settings.save();
-    }
+    });
+
+    const settings = await this.settingsModel.findOneAndUpdate(
+      {},
+      { $set: updateData },
+      {
+        upsert: true,
+        new: true,
+        runValidators: true,
+      },
+    );
 
     return { message: 'success', data: settings };
   }

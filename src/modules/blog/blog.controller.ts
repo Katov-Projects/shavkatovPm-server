@@ -8,12 +8,10 @@ import {
   Post,
   Put,
   Query,
-  Req,
 } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { CreateBlogDto, UpdateBlogDto } from './dtos';
-import { Protected } from 'src/decoratores';
-import { Request } from 'express';
+import { Protected } from '../../decoratores';
 
 @Controller('blog')
 export class BlogController {

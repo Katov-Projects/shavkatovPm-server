@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { MongooseModule } from '@nestjs/mongoose';
-import { TelegrafModule } from 'nestjs-telegraf';
+// import { TelegrafModule } from 'nestjs-telegraf';
 import {
   AuthModule,
   BlogModule,
-  BotModule,
+  // BotModule,
   ProjectModule,
   StatsModule,
 } from './modules';

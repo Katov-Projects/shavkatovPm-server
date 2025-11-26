@@ -1,9 +1,8 @@
-import { Body, Controller, Get, Post, Put, Req, Res } from "@nestjs/common";
-import { AuthService } from "./auth.service";
-import { AuthUpdateDto, AuthLoginDto } from "./dtos";
-import { Protected } from "src/decoratores";
-import { Request, Response } from "express";
-
+import { Body, Controller, Get, Post, Put, Req, Res } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { AuthUpdateDto, AuthLoginDto } from './dtos';
+import { Request, Response } from 'express';
+import { Protected } from '../../decoratores';
 
 @Controller('auth')
 export class AuthController {
@@ -30,7 +29,7 @@ export class AuthController {
 
   @Get('token')
   @Protected(true)
-  async checkToken() {
+  checkToken() {
     return { message: 'success' };
   }
 }

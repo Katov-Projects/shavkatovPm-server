@@ -1,2 +1,2 @@
-export * from "./authLogin.dto";
-export * from "./authUpdate.dto";
+export * from './authLogin.dto';
+export * from './authUpdate.dto';

@@ -1,6 +1,6 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document, SchemaTypes } from "mongoose";
-import { Blog } from "src/modules/blog";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document, SchemaTypes } from 'mongoose';
+import { Blog } from '../../blog';
 
 export type CategoryDocument = Category & Document;
 

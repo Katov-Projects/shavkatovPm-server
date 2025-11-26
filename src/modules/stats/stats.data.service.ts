@@ -102,9 +102,7 @@ export class StatsDataService {
 
         const totalDocs = periodStats.length;
         const avgTime = totalDocs ? Math.round(totalAvgTime / totalDocs) : 0;
-        const avgBounceRate = totalDocs
-          ? totalBounceRate
-          : 0;
+        const avgBounceRate = totalDocs ? totalBounceRate : 0;
 
         results.push({
           type:

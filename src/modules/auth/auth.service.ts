@@ -2,15 +2,20 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Auth, AuthDocument } from './model';
 import { Model } from 'mongoose';
 import { AuthUpdateDto, AuthLoginDto } from './dtos';
-import { BadRequestException, Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
-import { JwtHelper } from 'src/helpers';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  OnModuleInit,
+} from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { Request, Response } from 'express';
+import { JwtHelper } from '../../helpers';
 
 @Injectable()
 export class AuthService implements OnModuleInit {
   async onModuleInit() {
-    this.seedFile();
+    await this.seedFile();
   }
 
   constructor(
@@ -18,7 +23,11 @@ export class AuthService implements OnModuleInit {
     private readonly jwt: JwtHelper,
   ) {}
 
-  async update(payload: AuthUpdateDto, req: Request & { adminId: string }, res: Response) {
+  async update(
+    payload: AuthUpdateDto,
+    req: Request & { adminId: string },
+    res: Response,
+  ) {
     const adminId = req.adminId;
 
     const hashPassword = await bcrypt.hash(payload.password, 10);
@@ -26,10 +35,10 @@ export class AuthService implements OnModuleInit {
     const data = await this.authModel.findByIdAndUpdate(adminId, {
       login: payload.login,
       password: hashPassword,
-    })
+    });
 
-    if(!data){
-      throw new NotFoundException("Admin Not Found");
+    if (!data) {
+      throw new NotFoundException('Admin Not Found');
     }
 
     res.clearCookie('accessToken', {
@@ -38,7 +47,6 @@ export class AuthService implements OnModuleInit {
       sameSite: 'lax',
       path: '/',
     });
-
 
     return res.json({ message: 'success' });
   }

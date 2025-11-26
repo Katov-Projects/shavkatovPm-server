@@ -35,7 +35,7 @@ export class CreateProjectDto {
   @Length(10, 1000)
   yondashuv: string;
 
-  @ApiProperty({ type: "array", example: 'vositalar', required: true })
+  @ApiProperty({ type: 'array', example: 'vositalar', required: true })
   @IsArray()
   vositalar: string[];
 

@@ -9,7 +9,7 @@ import {
 } from './model';
 import { isValidObjectId, Model } from 'mongoose';
 import { Server } from 'socket.io';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Socket } from 'socket.io';
 import { HomeSection, IBlogStats } from './interface';
 import { Blog, BlogDocument } from '../blog';
@@ -52,7 +52,7 @@ export class StatsService {
   async homeSection(payload: HomeSection, soket: Server, client: Socket) {
     const socketId = client.id;
 
-    const reqIp: string = payload.userId
+    const reqIp: string = payload.userId;
 
     try {
       if (payload.event === 'enter') {
@@ -218,7 +218,7 @@ export class StatsService {
 
           for (let i = 0; i < allStats.length; i++) {
             const trafficMap = allStats[i].trafficSources;
-            for (let page of pages) {
+            for (const page of pages) {
               const views = trafficMap.get(page)?.multiViews || 0;
               allWiewCount += views;
               avgTime += trafficMap.get(page)?.avgTime || 0;
@@ -277,7 +277,6 @@ export class StatsService {
         const foundBlogStats = await this.blogStatsModel.findOne({
           socketId: socketId,
         });
-
 
         if (foundBlogStats) {
           const foundBlog = await this.blogModel.findById(payload.blogId);
