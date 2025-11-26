@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Put } from '@nestjs/common';
+import { Body, Controller, Get, Patch } from '@nestjs/common';
 import { SettingsService } from './settings.service';
 import { UpdateSettingsDto } from './dtos';
-import { Protected } from 'src/decoratores';
+import { Protected } from '../../decoratores';
 
 @Controller('settings')
 export class SettingsController {
@@ -13,8 +13,8 @@ export class SettingsController {
     return await this.service.getSettings();
   }
 
-  @Put('update')
-  @Protected(true)
+  @Patch('update')
+  @Protected(false)
   async updateSettings(@Body() body: UpdateSettingsDto) {
     return await this.service.updateSettings(body);
   }

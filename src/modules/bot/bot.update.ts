@@ -1,6 +1,6 @@
-import { Ctx, Update } from 'nestjs-telegraf';
+import { Update } from 'nestjs-telegraf';
 import { SendMessageDto } from './dtos';
-import { Context, Telegraf } from 'telegraf';
+import { Telegraf } from 'telegraf';
 
 @Update()
 export class BotUpdate {
@@ -30,7 +30,9 @@ export class BotUpdate {
         <b>Xabar:</b> ${escapeHtml(payload.message) || 'N/A'}
       `.replace(/^[ \t]+/gm, '');
 
-      await this.bot.telegram.sendMessage(AdminTelId, text, {parse_mode: "HTML"});
+      await this.bot.telegram.sendMessage(AdminTelId, text, {
+        parse_mode: 'HTML',
+      });
     } catch (error) {
       console.log(error, 'Adminga habar yuborishda xatolik');
     }

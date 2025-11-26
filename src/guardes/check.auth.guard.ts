@@ -6,9 +6,8 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
-import { Observable } from 'rxjs';
-import { PROTECTED_KEY } from 'src/decoratores';
-import { JwtHelper } from 'src/helpers';
+import { JwtHelper } from '../helpers';
+import { PROTECTED_KEY } from '../decoratores';
 
 @Injectable()
 export class CheckAuthGuard implements CanActivate {

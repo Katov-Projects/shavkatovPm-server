@@ -1,12 +1,10 @@
-import { Module } from "@nestjs/common";
-import { Model } from "mongoose";
-import { AuthController } from "./auth.controller";
-import { AuthService } from "./auth.service";
-import { JwtHelper } from "src/helpers";
-import { MongooseModule } from "@nestjs/mongoose";
-import { Auth, AuthSchema } from "./model";
-import { JwtModule } from "@nestjs/jwt";
-
+import { Module } from '@nestjs/common';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtHelper } from '../../helpers';
+import { Auth, AuthSchema } from './model';
 
 @Module({
   imports: [
@@ -20,4 +18,4 @@ import { JwtModule } from "@nestjs/jwt";
   providers: [AuthService, JwtHelper],
   exports: [JwtHelper],
 })
-export class AuthModule {};
+export class AuthModule {}

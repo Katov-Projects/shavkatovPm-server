@@ -10,7 +10,7 @@ import {
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { Protected } from 'src/decoratores';
+import { Protected } from '../../decoratores';
 
 @Controller('category')
 export class CategoryController {
@@ -30,13 +30,13 @@ export class CategoryController {
 
   @Get('all-cateorynames')
   @Protected(true)
-  async getAllCategoryNames () {
+  async getAllCategoryNames() {
     return await this.categoryService.getAllCategoryNames();
   }
 
-  @Get("get-blogs/:id")
+  @Get('get-blogs/:id')
   @Protected(false)
-  async getByBlogs(@Param("id") id: string) {
+  async getByBlogs(@Param('id') id: string) {
     return await this.categoryService.getByBlogs(id);
   }
 

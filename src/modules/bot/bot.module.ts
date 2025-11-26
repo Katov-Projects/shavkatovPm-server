@@ -1,13 +1,13 @@
-import { Module } from "@nestjs/common";
-import { BotController } from "./bot.controller";
-import { BotUpdate } from "./bot.update";
-import { Telegraf } from "telegraf";
-import { ConfigService } from "@nestjs/config";
-
+import { Module } from '@nestjs/common';
+import { BotController } from './bot.controller';
+import { BotUpdate } from './bot.update';
+import { Telegraf } from 'telegraf';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   controllers: [BotController],
-  providers: [BotUpdate, 
+  providers: [
+    BotUpdate,
     {
       provide: Telegraf,
       inject: [ConfigService],
@@ -17,8 +17,5 @@ import { ConfigService } from "@nestjs/config";
       },
     },
   ],
-
 })
-
 export class BotModule {}
-

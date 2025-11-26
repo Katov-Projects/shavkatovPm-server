@@ -1,6 +1,5 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import mongoose, { Document, SchemaTypes } from "mongoose";
-
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { Document, SchemaTypes } from 'mongoose';
 
 export type BlogDocument = Blog & Document;
 
@@ -55,6 +54,4 @@ export class Blog {
   categoryId: string;
 }
 
-
 export const BlogSchema = SchemaFactory.createForClass(Blog);
-

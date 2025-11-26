@@ -1,8 +1,7 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document, SchemaTypes } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document, SchemaTypes } from 'mongoose';
 
 export type AuthDocument = Auth & Document;
-
 
 @Schema({ collection: 'auth', timestamps: true, versionKey: false })
 export class Auth {

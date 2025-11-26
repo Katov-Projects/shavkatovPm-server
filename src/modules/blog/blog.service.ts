@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common';
 import { CreateBlogDto, UpdateBlogDto } from './dtos';
 import { Category, CategoryDocument } from '../category/model';
-import { Request } from 'express';
 
 @Injectable()
 export class BlogService {

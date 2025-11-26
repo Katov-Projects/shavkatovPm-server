@@ -59,7 +59,7 @@ export class UpdateBlogDto {
   @ValidateNested({ each: true })
   @Type(() => ValueObjectDto)
   tags: ValueObjectDto[];
-  
+
   @IsString()
   categoryId: string;
 }

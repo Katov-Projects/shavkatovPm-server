@@ -1,1 +1,1 @@
-export * from "./protected.decorator";
+export * from './protected.decorator';

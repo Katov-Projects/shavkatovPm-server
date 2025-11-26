@@ -8,7 +8,7 @@ class TrafficSourceStats {
   @Prop({ type: [SchemaTypes.String], default: [] })
   uniqueViews: string[];
 
-  @Prop({type: SchemaTypes.Number, default: 0})
+  @Prop({ type: SchemaTypes.Number, default: 0 })
   uniqueCount: number;
 
   @Prop({ type: SchemaTypes.Number, default: 0 })

@@ -1,7 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from "@nestjs/common";
-import { ProjectServiec } from "./project.servoce";
-import { CreateProjectDto, UpdateProjectDto } from "./dtos";
-import { Protected } from "src/decoratores";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { ProjectServiec } from './project.servoce';
+import { CreateProjectDto, UpdateProjectDto } from './dtos';
+import { Protected } from '../../decoratores';
 
 @Controller('project')
 export class ProjectController {
@@ -19,9 +28,9 @@ export class ProjectController {
     return await this.service.getAllArchive();
   }
 
-  @Get(":id")
+  @Get(':id')
   @Protected(false)
-  async getById(@Param("id") id: string) {
+  async getById(@Param('id') id: string) {
     return await this.service.getById(id);
   }
 
